@@ -1,5 +1,7 @@
 # A Free (forever) Cloud Based Jupyter data science development environment in 10 steps!
 
+![Run OCI](../Assets/RUN-OCI-header.png)
+
 Wow, that is not the snappiest title I've ever written! But it is descriptive, so if that's what you're after, hold tight!
 
 Recently I got into a conversation with a data scientist who told me one time consuming part of their job was to paraphrase...
@@ -31,9 +33,11 @@ The outcomes we're after are:
 
 ---
 
-**Step 1: Log into your OCI Free Tier**
+## Step 1: Log into your OCI Free Tier**
 
-**Step 2: Import the base dev image**
+I like to think of VMs here as a couple of free raspberry pi's in the sky.  Great for experimenting with little projects and setting up useful cloud hosted services for yourself!
+
+## Step 2: Import the base dev image
 
 I created an empty Ubuntu 18.04 image which comes pre-loaded with a few useful tools for VNC / desktop access which isn't a bad start. Over time I'll add links in this repo to other images that I find useful, generally pre-configured with a few more useful tools.
 
@@ -46,14 +50,14 @@ I created an empty Ubuntu 18.04 image which comes pre-loaded with a few useful t
 
 This will take a little while to pull the image, so in the meantime we can do something else.
 
-**Step 3: Setup a public IP**
+## Step 3: Setup a public IP
 
 W're going ot need access remotely so via SSH so we'll need a public IP.  Lets grab one of those.
 
 * Navigate to Menu > Networking > Public IPs.
 * Create a public IP.
 
-**Step 4: Create a free VM compute instance**
+## Step 4: Create a free VM compute instance
 
 Ok this is where we spin up one of our two always free VMs, however, we'll want the import of our image to be finished, once that's done:
 
@@ -65,45 +69,55 @@ Ok this is where we spin up one of our two always free VMs, however, we'll want 
 
 [Choose the Image and Shape](Assets/849E86B3-E207-4480-BC26-C5114F8D0197.png)
 
-**Step 5: Assign a Public IP**
+## Step 5: Assign a Public IP
 
-Navigate to "Instance > Details > Attached VNICs > VNIC Details > IP Addresses"
-click to edit the existing private IP address
-select "reserved public IP" and select the IP address you generated in step 3.
-Step 6: Log in / Create an SSH tunnel
+If we're going to access this outside the cloud console we're going to need a public IP. 
 
-I've only tried this on mac and linux as that's what's available to me but the idea here is to log into the remote box and create an SSH tunnel which maps our local port 8888 to that of the remote machine.
+* Navigate to "Instance > Details > Attached VNICs > VNIC Details > IP Addresses".
+* From the ... menu click to edit the existing private IP address.
+* Select "reserved public IP" and select the IP address you generated in step 3.
 
-Head to the terminal on your local machine with the following command:
+## Step 6: Log in / Create an SSH tunnel
 
-ssh -L :8888:localhost:8888 ubuntu@<ip_address> -i <ssh_private_key_name>)
+I've only tried this on mac and linux as that's what's available to me but the idea here is to log into the remote box and create an SSH tunnel which maps our local port 8888 to that of the remote machine. We're going with this extra step so that we can access our Jupyter server through this port mapping. 
 
-IP address is your public IP address for this box and ssh private key is the name of the private key you have generated earlier.
+Simply fire up a terminal on your local machine with the following command:
 
-Step 7: Fire up the notebooks and connect
+`ssh -L :8888:localhost:8888 ubuntu@<ip_address> -i <ssh_private_key_name>)`
 
-After the terminal connects to the remote box just type:
+The `<ip_address>` is your public IP address which you can record from your instance details.  
+The `<ssh_private_key_name>` is the name of the private key on your local machine [see guide if you missed it earlier](https://docs.oracle.com/en/cloud/paas/database-dbaas-cloud/csdbi/generate-ssh-key-pair.html#GUID-69EF7E8A-7CD5-482E-A878-882EA21DE2B8).
 
-jupyter notebook
+## Step 7: Fire up the notebooks and connect
 
-This will fire up jupyter with a server on localhost:8888 which we have already conveniently mapped to our own localhost:8888.
+After the terminal connects to the remote box, we've now got a secure connection to the box and can kick off hte pre-installed Jupyter Server.  Simply enter
 
-Step 8: Access
+`jupyter notebook`
 
- Click / copy the link in terminal into your browser to log in! it'll be of the format:
+This will fire up jupyter with a server on localhost:8888 which we have already conveniently mapped to our own localhost:8888. Did someone say, **Bish, Bash, Bosh?**
 
-http://localhost:8888/?token=biglongtokenoincludingnumbers78708678andletterssfslkfj
+## Step 8: Connect to Remote Notebook Server
 
-This will fire up a jupyter notebook, as though its running on your local machine, however, with all traffic routed securely to the remote server through the SSH tunnel.
+Click / copy the link in terminal into your browser to log in! 
+
+It will be of the format of...
+
+* http://localhost:8888/?token=biglongtokenoincludingnumbers78708678andletterssfslkfj
+
+This will fire up a jupyter notebook in your local browser, with all code, files and exectuion taking place in the cloud, securely accessed through the SSH tunnel.
 
 Now you're ready to get started!
 
-Step 9: Bonus Round
+## Step 9: The Bonus Round!
 
-You may want to do some work outside notebooks for which a remote VS Code sever is a good option. This youtube video gives you a good overview of how to set that up and can be configured pretty easily for you're remote instance.
+**VS Code Server** You may want to do some work outside notebooks for which a remote VS Code sever is a good option and is already installed on the server. This [youtube video gives you a good overview of how to set that up](https://www.youtube.com/watch?v=lKXMyln_5q4) and can be configured pretty easily for you're remote instance.
+
+**VNC Access** Sometimes you just want a gui and luckilly we've already pre-configured everything you need here. [See the end of this guide for details on how to connect](https://youtu.be/Kb6v1GqeAc0?t=336)
 
 Bonus points to anyone who follows this though and I'll write up a quick summary of that soon in another article.
 
-Step 10: Share your experience and reqs!
+## Step 10: Share your experience and your requirements!
 
-Share your experience! I found this useful, but obviously it would be good to hear what you think and understand what alternative environments you might want to see easily deployable in the future, so just let us know and we'll make more simple ways to use your free tier available!
+The point of this repo is to gather to gether a range of opensource / creative commons guides and images for working with OCI Free Tier (and paid services).
+
+So, we ask one simple question, please share your experience and make some requests for other images you'd love to see pre-configured for deployment!
