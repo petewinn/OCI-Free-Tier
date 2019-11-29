@@ -1,6 +1,6 @@
-# A Free (forever) Cloud Based Jupyter data science development environment in 10 steps!
-
 ![Run OCI](../Assets/RUN-OCI-header.png)
+
+# Free (forever) Cloud Data Science Development Environment In 10 easy steps!
 
 Wow, that is not the snappiest title I've ever written! But it is descriptive, so if that's what you're after, hold tight!
 
@@ -33,7 +33,7 @@ The outcomes we're after are:
 
 ---
 
-## Step 1: Log into your OCI Free Tier**
+## Step 1: Log into your OCI Free Tier
 
 I like to think of VMs here as a couple of free raspberry pi's in the sky.  Great for experimenting with little projects and setting up useful cloud hosted services for yourself!
 
