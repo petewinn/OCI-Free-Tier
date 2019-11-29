@@ -6,7 +6,7 @@ Its like being given two "Raspberry Pis in the sky".
 
 If there's anything that you find useful, feel free to share!
 
-* A simple remote Data Science Developemnt Platform.
+* [Simple remote Data Science Developemnt Platform.](../tree/master/SimpleDS/)
 * Personal VPN service.
 * Media Service.
 
