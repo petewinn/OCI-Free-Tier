@@ -67,7 +67,7 @@ Ok this is where we spin up one of our two always free VMs, however, we'll want 
 * The free tier shape should already be selected.
 * Copy in your SSH **Public** Key.
 
-[Choose the Image and Shape](Assets/849E86B3-E207-4480-BC26-C5114F8D0197.png)
+![Choose the Image and Shape](../Assets/849E86B3-E207-4480-BC26-C5114F8D0197.png)
 
 ## Step 5: Assign a Public IP
 
