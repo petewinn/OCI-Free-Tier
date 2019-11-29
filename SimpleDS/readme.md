@@ -1,52 +1,71 @@
 # A Free (forever) Cloud Based Jupyter data science development environment in 10 steps!
 
----
-
 Wow, that is not the snappiest title I've ever written! But it is descriptive, so if that's what you're after, hold tight!
 
 Recently I got into a conversation with a data scientist who told me one time consuming part of their job was to paraphrase...
 
-"get people setup with an environment they can play around in and get used to the tools"
-This was as simple as a consistent developer environment that could be deployed with a number of useful tools ready to go.
+> "get people setup with an environment they can play around in and get used to the tools"
 
-Conversation took the many turns it often does, but an option I thought would be pretty useful would be to leverage Oracle's recently announced "Always Free Tier" to build a training environment that could be given out far and wide and would'n go away after a year!
+Could we package and deploy a simple developer environment with minimal fuss with a number of useful tools ready to go.
 
-So I set myself the task seeing if there was an easy way to get this done and get other people to replicate this. The astute amongst you will realise this article is the output of that guide! :)
+Conversation took the many turns it often does, but an option I thought would be pretty useful would be to leverage Oracle's recently announced "[Always Free Tier](http://oracle.com/cloud/free)" to build a training environment that could be given out far and wide and wouldn't go away after a year!
 
-So the goal was a cloud based development environment which was:
+So I set myself the task of seeing if there was an easy way to get this done and allow other people to replicate this. The astute amongst you will realise this article is the output of that guide :)
 
-An always on;
-Accessible and ready-to-go from work computer, home laptop or a tablet;
-Accessible either via terminal or VNC for GUI when required;
-Runs Jupyter notebook server to act as a remote data science development / test environment.
-and ideally as a bonus runs remote VS Code server for generic development and scripting efforts.
-Now the pre-requisites here are: 1) an hour or so 2) an ssh key-pair 3) an Oracle Always Free Tier Account. So grab these, but if you need help on any of that just add a comment below.
+---
 
-Step 1: Log into your OCI Free Tier
+The outcomes we're after are:
 
-Step 2: Import a Dev Image
+* A free computer in the sky.
+* Always on.
+* Accessible and ready-to-go from work, home or mobile (tablet).
+* Accessible either via SSH (apps, terminal) or VNC for GUI when required.
+* Jupyter notebook server to act as a remote data science development / test environment.
+* **Bonus** remote VS Code server for generic development and scripting efforts.
 
-I created an empty Ubuntu 18.04 image which comes pre-loaded with a few useful tools for VNC / desktop access which isn't a bad start. So let's import that.
+**The pre-requisites are:** 
 
-Import a custom image (Menu > Compute > Custom Images).
-Click import and import a linux image from this URL of image type OCI.
-Paste: https://objectstorage.ap-sydney-1.oraclecloud.com/p/Ou2S0FX8KO8Ss-xQDsVAexnD8FTnRYYXebEqhREzuFM/n/sde81zai9pvf/b/HI_Bucket/o/DevBuntsImage
+1) [Oracle Always Free Tier Account.](http://oracle.com/cloud/free)
+2) [An SSH key-pair](https://docs.oracle.com/en/cloud/paas/database-dbaas-cloud/csdbi/generate-ssh-key-pair.html#GUID-69EF7E8A-7CD5-482E-A878-882EA21DE2B8)
+3) [An hour or so spare :)](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjR0f67mI7mAhUPfH0KHa95DwIQFjAAegQIARAB&url=https%3A%2F%2Fgettingthingsdone.com%2F&usg=AOvVaw29xE4PaNOode2uC-m_4EyX)
+
+---
+
+**Step 1: Log into your OCI Free Tier**
+
+**Step 2: Import the base dev image**
+
+I created an empty Ubuntu 18.04 image which comes pre-loaded with a few useful tools for VNC / desktop access which isn't a bad start. Over time I'll add links in this repo to other images that I find useful, generally pre-configured with a few more useful tools.
+
+* Import a custom image (Menu > Compute > Custom Images).
+* Click import, fill in the form 
+* In "Object Storage URL" Paste: [this Link](https://objectstorage.ap-sydney-1.oraclecloud.com/p/Ou2S0FX8KO8Ss-xQDsVAexnD8FTnRYYXebEqhREzuFM/n/sde81zai9pvf/b/HI_Bucket/o/DevBuntsImage).
+* Select image type OCI.
+
+![Image Import](../Assets/A1933B18-CFA8-4229-AA84-DC562F1ED75E.png)
+
 This will take a little while to pull the image, so in the meantime we can do something else.
 
-Step 3: Setup a public IP
+**Step 3: Setup a public IP**
 
-When you've got you're environment up and running you'll need to we're going to access from the internet via SSH so it'll need a public IP so let's grab one of those.
+W're going ot need access remotely so via SSH so we'll need a public IP.  Lets grab one of those.
 
-Navigate to Menu > Networking > Public IPs.
-Create a public IP.
-Step 4: Create a free VM compute instance
+* Navigate to Menu > Networking > Public IPs.
+* Create a public IP.
 
-Navigate to Compute > Instances > Create Instance
-Give it a catchy name - "OracleCoolDevEnviromement"
-Change Image source > "name of the custom image you imported"
-shape details as below
-Copy in your SSH key.
-Step 5: Assign a public IP Address to your new dev server
+**Step 4: Create a free VM compute instance**
+
+Ok this is where we spin up one of our two always free VMs, however, we'll want the import of our image to be finished, once that's done:
+
+* Navigate to Compute > Instances > Create Instance.
+* Give it a catchy name - "OracleCoolDevEnviromement".
+* Click "Change Image Source > Custom Image" Choose the image you just imported.
+* The free tier shape should already be selected.
+* Copy in your SSH **Public** Key.
+
+[Choose the Image and Shape](Assets/849E86B3-E207-4480-BC26-C5114F8D0197.png)
+
+**Step 5: Assign a Public IP**
 
 Navigate to "Instance > Details > Attached VNICs > VNIC Details > IP Addresses"
 click to edit the existing private IP address
