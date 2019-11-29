@@ -6,7 +6,7 @@ Its like being given two "Raspberry Pis in the sky".
 
 If there's anything that you find useful, feel free to share!
 
-* [Simple Data Science Development Platform.](/tree/master/SimpleDS/)
+* [Simple Data Science Development Platform.](https://github.com/petewinn/OCI-Free-Tier/tree/master/SimpleDS)
 * Personal VPN service.
 * Media Service.
 
