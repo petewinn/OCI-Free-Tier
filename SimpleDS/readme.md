@@ -121,3 +121,5 @@ Bonus points to anyone who follows this though and I'll write up a quick summary
 The point of this repo is to gather to gether a range of opensource / creative commons guides and images for working with OCI Free Tier (and paid services).
 
 So, we ask one simple question, please share your experience and make some requests for other images you'd love to see pre-configured for deployment!
+
+All material on this site is licensed under a [Creative Commons BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
