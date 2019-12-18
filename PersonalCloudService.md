@@ -1,3 +1,5 @@
+![Run OCI](/Assets/RUN-OCI-header.png)
+
 # Setup your own Personal Cloud Server (files, chat, notes everything!) for free in the cloud!
 
 ## Create a Free Tier Instnace
@@ -10,11 +12,11 @@ Log in > Compute > Instance > Create Instance
 
 Select Ubuntu 18.04 (minimal) as your image.
 
-![54f21c2feab1c9259ca54afd28922f4d.png](:/8275a52843d14e7b95c38b1977f2c992)
+![Screen1](/Assets/pcs-1.png)
 
 Assign a public IP address and upload your ssh public key (see here for more information)
 
-![12278fcce63bf9d9ac1adb1dbc8f00f2.png](:/57d8712d63d74794a5786525b5857fb4)
+![Screen2](/Assets/pcs-2.png)
 
 ## Base Config and Install
 
@@ -97,16 +99,15 @@ Now we head to the Oracle Cloud Console to set up the port forwarding rules so t
 4. Select the default security list
 5. Create two new rules for traffic from 0.0.0.0/0 (means anywhere) to port 80 and port 443 respectively.
 
+![Screen3](/Assets/pcs-3.png)
 
-![9274d9f32b888789e78aa35cb57597a9.png](:/eca6e9896eff46b6b123a93fa9732920)
+![Screen4](/Assets/pcs-4.png)
 
-![a6442de9c3382b2e14fef5319368adef.png](:/f2f86a40395144bba1a54849fa16920e)
+![Screen5](/Assets/pcs-5.png)
 
-![4877f50972ec22945a5e1a83289e9a89.png](:/3a355c32bf504f29ba538ee12c56339f)
+![Screen6](/Assets/pcs-6.png)
 
-![8cfa863e81e2099bf27b47f162faaa94.png](:/52a353d2b1b64a22bfbaa8fe1c6f4d81)
-
-![1fa32a5a71d1726d0a6280b8d62b2c1f.png](:/510f9192856d40a4ae7fb86b36297365)
+![Screen7](/Assets/pcs-7.png)
 
 Now if all that worked you should be able to type the public ip address into your browser and see the log in scree for next cloud. However to make this secure we're going to want to add a certificate.
 
