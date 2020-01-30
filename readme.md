@@ -9,7 +9,8 @@ If there's anything that you find useful, feel free to share!
 Some examples I'm interested in working thorugh include:
 
 * [Simple Data Science Development Platform.](https://github.com/petewinn/OCI-Free-Tier/tree/master/SimpleDS)
-* Personal Cloud Services (using nextcloud).
+* [Personal Cloud Services (using nextcloud).](https://github.com/petewinn/OCI-Free-Tier/blob/master/PersonalCloudService.md)
+* [Run VS Code on your iPad!](https://github.com/petewinn/OCI-Free-Tier/blob/master/VSCode-iPad.md)
 * Personal VPN service.
 * Media Service.
 
