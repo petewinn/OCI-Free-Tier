@@ -46,15 +46,14 @@ Ok this is where we spin up one of our two always free VMs, however, we'll want 
 
 ## Step 3: Assign a domain / subdomain!
 
-To add secure access via https we're going to assign a subdomain here and use a reverse proxy to route through to the service. Simply put, go to a service like godaddy where you have a 
+To add secure access via https we're going to assign a subdomain here and use a reverse proxy to route through to the service. Simply put, go to a service like godaddy and buy a domain or point a subdomain you own to your server.
 
-If we're going to access this outside the cloud console we're going to need a public IP. 
+In this case - you'll want ot create an A record in you DNS akin to `@ point to IP` for domain.com `vs points to <IP Address>` for vs.domain.com
 
-* Navigate to "Instance > Details > Attached VNICs > VNIC Details > IP Addresses".
-* From the ... menu click to edit the existing private IP address.
-* Select "reserved public IP" and select the IP address you generated in step 3.
+***Bonus round:*** From this point you can now log into the ssh into the box using this domian redirect instead of the ip address (i.e. ssh ubuntu@vs.domain.com -i <yourkey>)
 
-## Setup port forwarding and SSL
+  
+## Step 4: Setup port forwarding and SSL
 
 Now we head to the Oracle Cloud Console to set up the port forwarding rules so that traffic can even get to the server in the first place!
 
@@ -74,60 +73,30 @@ Now we head to the Oracle Cloud Console to set up the port forwarding rules so t
 
 ![Screen7](/Assets/pcs-7.png)
 
-Now if all that worked you should be able to type the public ip address into your browser and see the log in screen for next cloud. 
+OK for now, this won't have done much but this will allow us to easily add SSL Certs to encrypt our access to our webserver.
 
-However to make this secure we're going to want to add a certificate so we can access this securely over https.
+## Step 5: Install Docker!
 
-`sudo nextcloud.enable-https lets-encrypt`
+* SSH into your new box e.g. `ssh ubuntu@vs.domain.com -i <yourkey>`
+* Update the machine `sudo apt-get update` and `sudo apt-get upgrade`
+* Install docker: see here -> https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* To run docker withotu SUDO: `sudo usermod -aG docker ${USER}`
+* Install docker-compose: 
 
-Answer the questions, add in your domain and boom! You now have a secure encrypted connection to your nextcloud instance so log in with the admin username and password you provided earlier!
+## Step 6: Fire up your containers
 
-http://oracleisbrill.com
-will auto redirect you to https://oracleisbrill.com and you can securely log in!
+```
 
 
-## Step 6: Log in / Create an SSH tunnel
+```
 
-I've only tried this on mac and linux as that's what's available to me but the idea here is to log into the remote box and create an SSH tunnel which maps our local port 8888 to that of the remote machine. We're going with this extra step so that we can access our Jupyter server through this port mapping. 
+## Step 7: Log in and get cracking!
 
-Simply fire up a terminal on your local machine with the following command:
+---
 
-`ssh -L :8888:localhost:8888 ubuntu@<ip_address> -i <ssh_private_key_name>)`
+## Step 8: Bonus Round!
 
-The `<ip_address>` is your public IP address which you can record from your instance details.  
-The `<ssh_private_key_name>` is the name of the private key on your local machine [see guide if you missed it earlier](https://docs.oracle.com/en/cloud/paas/database-dbaas-cloud/csdbi/generate-ssh-key-pair.html#GUID-69EF7E8A-7CD5-482E-A878-882EA21DE2B8).
-
-## Step 7: Fire up the notebooks and connect
-
-After the terminal connects to the remote box, we've now got a secure connection to the box and can kick off hte pre-installed Jupyter Server.  Simply enter
-
-`jupyter notebook`
-
-This will fire up jupyter with a server on localhost:8888 which we have already conveniently mapped to our own localhost:8888. Did someone say, **Bish, Bash, Bosh?**
-
-## Step 8: Connect to Remote Notebook Server
-
-Click / copy the link in terminal into your browser to log in! 
-
-It will be of the format of...
-
-* http://localhost:8888/?token=biglongtokenoincludingnumbers78708678andletterssfslkfj
-
-This will fire up a jupyter notebook in your local browser, with all code, files and exectuion taking place in the cloud, securely accessed through the SSH tunnel.
-
-Now you're ready to get started!
-
-## Step 9: The Bonus Round!
-
-**VS Code Server** You may want to do some work outside notebooks for which a remote VS Code sever is a good option and is already installed on the server. This [youtube video gives you a good overview of how to set that up](https://www.youtube.com/watch?v=lKXMyln_5q4) and can be configured pretty easily for you're remote instance.
-
-**VNC Access** Sometimes you just want a gui and luckilly we've already pre-configured everything you need here. [See the end of this guide for details on how to connect](https://youtu.be/Kb6v1GqeAc0?t=336)
-
-Bonus points to anyone who follows this though and I'll write up a quick summary of that soon in another article.
-
-## Step 10: Share your experience and your requirements!
-
-The point of this repo is to gather to gether a range of opensource / creative commons guides and images for working with OCI Free Tier (and paid services).
+The point of this repo is to gather together a range of opensource / creative commons guides and images for working with OCI Free Tier - also works on paid services ;-).
 
 So, we ask one simple question, please share your experience and make some requests for other images you'd love to see pre-configured for deployment!
 
