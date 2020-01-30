@@ -87,7 +87,71 @@ OK for now, this won't have done much but this will allow us to easily add SSL C
 
 ```
 
+version: '2'
 
+services:
+
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: proxy
+    restart: unless-stopped
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - ./uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - "default"
+      - "proxy-tier"
+
+  proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    restart: unless-stopped
+    environment:
+      - NGINX_PROXY_CONTAINER=proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - "proxy"
+    depends_on:
+      - "proxy"
+    networks:
+      - "default"
+      - "proxy-tier"
+
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/wherever
+      - VIRTUAL_HOST=vs.domain.com
+      - LETSENCRYPT_HOST=vs.domain.com
+      - LETSENCRYPT_EMAIL=email@domain.com
+      - PASSWORD=<yourpassword>
+      - SUDO_PASSWORD=<yoursudopassword>
+    volumes:
+      - /codeserver/config:/config
+    ports:
+      - 8443:8443
+
+volumes:
+  certs:
+  vhost.d:
+  html:
+
+networks:
+  proxy-tier:
+  
 ```
 
 ## Step 7: Log in and get cracking!
