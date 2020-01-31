@@ -12,6 +12,10 @@ Better yet, what if it was free?
 
 Well as luck would have it there's a quick, free workaround available via Oracle Free Tier, Docker and the open source Code Server!
 
+Check it out!
+
+<img src="Assets/vscode-ipad.jpg" width=50%>
+
 ---
 
 ### Let's get started
