@@ -1,3 +1,5 @@
+![Run OCI](Assets/RUN-OCI-header.png)
+
 # Run VS Code development environment on your iPad!
 
 Sometimes you just want a bit of flexibility in your coding environment.
@@ -45,6 +47,8 @@ Ok this is where we spin up one of our two always free VMs, however, we'll want 
 *   Clik to assign a public IP
 *   Copy in your SSH **Public** Key.
 
+![](Assets/849E86B3-E207-4480-BC26-C5114F8D0197.png)
+
 ## Step 3: Assign a domain / subdomain!
 
 To add secure access via https we're going to assign a subdomain here and use a reverse proxy to route through to the service. Simply put, go to a service like godaddy and buy a domain or point a subdomain you own to your server.
@@ -62,6 +66,12 @@ Now we head to the Oracle Cloud Console to set up the port forwarding rules so t
 3.  Click on "security lists" in the left hand menu
 4.  Select the default security list
 5.  Create two new rules for traffic from 0.0.0.0/0 (means anywhere) to port 80 and port 443 respectively.
+
+![](/Assets/pcs-3.png)
+![](/Assets/pcs-4.png)
+![](/Assets/pcs-5.png)
+![](/Assets/pcs-6.png)
+![](/Assets/pcs-7.png)
 
 This is just going to let us access the server through https and http and we'll use a reverse proxy to take care of everything from there.
 
@@ -83,20 +93,77 @@ OK, now we have docker we can actually start to get things up and running.
 
 So first things first, on your free tier box create a directory called proxy and create file called docker-compose.yml.
 
-```bash
+```
 mkdir proxycd proxy nano docker-compose.yml
 ```
 
 In the nano window you can then paste in the script below.
 
-```docker
+```
+version: '2'
 
-version: '2'services:  proxy:    image: jwilder/nginx-proxy    container_name: proxy    restart: unless-stopped    labels:      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"    volumes:      - /var/run/docker.sock:/tmp/docker.sock:ro      - certs:/etc/nginx/certs:rw      - vhost.d:/etc/nginx/vhost.d      - html:/usr/share/nginx/html      - ./uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro    ports:      - "80:80"      - "443:443"    networks:      - "default"      - "proxy-tier"  proxy-letsencrypt:    image: jrcs/letsencrypt-nginx-proxy-companion    container_name: letsencrypt    restart: unless-stopped    environment:      - NGINX_PROXY_CONTAINER=proxy    volumes:      - /var/run/docker.sock:/var/run/docker.sock:ro    volumes_from:      - "proxy"    depends_on:      - "proxy"    networks:      - "default"      - "proxy-tier"  code-server:    image: linuxserver/code-server    container_name: code-server    restart: unless-stopped    environment:      - PUID=1000      - PGID=1000      - TZ=Australia/wherever      - VIRTUAL_HOST=
-      - LETSENCRYPT_HOST=
-      - LETSENCRYPT_EMAIL=
-      - PASSWORD=
-      - SUDO_PASSWORD=
-    volumes:      - /codeserver/config:/config    ports:      - 8443:8443volumes:  certs:  vhost.d:  html:networks:  proxy-tier:
+services:
+
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: proxy
+    restart: unless-stopped
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - ./uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - "default"
+      - "proxy-tier"
+
+  proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    restart: unless-stopped
+    environment:
+      - NGINX_PROXY_CONTAINER=proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - "proxy"
+    depends_on:
+      - "proxy"
+    networks:
+      - "default"
+      - "proxy-tier"
+
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/wherever
+      - VIRTUAL_HOST=<vs.domain.com>
+      - LETSENCRYPT_HOST=<vs.domain.com>
+      - LETSENCRYPT_EMAIL=<email@domain.com>
+      - PASSWORD=<yourpassword>
+      - SUDO_PASSWORD=<yoursudopassword>
+    volumes:
+      - /codeserver/config:/config
+    ports:
+      - 8443:8443
+
+volumes:
+  certs:
+  vhost.d:
+  html:
+
+networks:
+  proxy-tier:
 ```
 
 This code will do the heavy lifting to automate the build of everything you need, but you'll want to change a few variables:
@@ -138,6 +205,8 @@ Well done you now have a web based IDE :)
 So next step is to log in and get cracking.
 
 Head to <vs.your.domain> and you'll be prompted for the password you specified in your docker-compose.yml file.
+
+![Login to VS Code](Assets/vscode-login.png)
 
 So log in, install what you need andget coding knowing you can take your work with you wherever you go!
 
